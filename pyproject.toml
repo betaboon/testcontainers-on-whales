@@ -38,6 +38,26 @@ dev = [
 [tool.black]
 line-length = 88
 
+[tool.flake8]
+# Recommend matching the black line length (default 88),
+# rather than using the flake8 default of 79:
+max-line-length = 88
+extend-ignore = [
+    # See https://github.com/PyCQA/pycodestyle/issues/373
+    "E203",
+]
+per-file-ignores = [
+  # imported but unused
+  "__init__.py:F401",
+  # comparison to True should be 'if cond is True:' or 'if cond:'
+  "tests/*:E712",
+]
+exclude = [
+  "__pypackages__",
+  "build",
+  "dist",
+]
+
 [build-system]
 requires = ["pdm-pep517>=1.0.0"]
 build-backend = "pdm.pep517.api"

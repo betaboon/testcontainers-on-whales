@@ -35,6 +35,9 @@ dev = [
     "commitizen>=2.29.3",
 ]
 
+[tool.black]
+line-length = 88
+
 [build-system]
 requires = ["pdm-pep517>=1.0.0"]
 build-backend = "pdm.pep517.api"

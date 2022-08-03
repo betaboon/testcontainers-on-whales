@@ -32,6 +32,7 @@ lint = "pre-commit run --all-files"
 [tool.pdm.dev-dependencies]
 dev = [
     "pre-commit>=2.20.0",
+    "commitizen>=2.29.3",
 ]
 
 [build-system]

@@ -26,6 +26,8 @@ source = "file"
 path = "testcontainers_on_whales/__init__.py"
 
 [tool.pdm.scripts]
+ci-lint = "pre-commit run --show-diff-on-failure --from-ref $FROM_REF --to-ref $TO_REF"
+ci-commit-lint = "cz check --rev-range $FROM_REF..$TO_REF"
 install-git-hooks = "pre-commit install"
 lint = "pre-commit run --all-files"
 test = "pytest"

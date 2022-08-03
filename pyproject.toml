@@ -41,6 +41,12 @@ test = [
     "pytest>=7.1.2",
 ]
 
+[tool.commitizen]
+version = "0.0.2"
+version_files = [
+  "testcontainers_on_whales/__init__.py"
+]
+
 [tool.black]
 line-length = 88
 

@@ -58,6 +58,11 @@ exclude = [
   "dist",
 ]
 
+[tool.isort]
+profile = "black"
+atomic = true
+filter_files = true
+
 [build-system]
 requires = ["pdm-pep517>=1.0.0"]
 build-backend = "pdm.pep517.api"

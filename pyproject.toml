@@ -28,11 +28,15 @@ path = "testcontainers_on_whales/__init__.py"
 [tool.pdm.scripts]
 install-git-hooks = "pre-commit install"
 lint = "pre-commit run --all-files"
+test = "pytest"
 
 [tool.pdm.dev-dependencies]
 dev = [
     "pre-commit>=2.20.0",
     "commitizen>=2.29.3",
+]
+test = [
+    "pytest>=7.1.2",
 ]
 
 [tool.black]
@@ -62,6 +66,11 @@ exclude = [
 profile = "black"
 atomic = true
 filter_files = true
+
+[tool.pytest.ini_options]
+addopts = "-ra --ignore=__pypackages__"
+log_cli_level = "DEBUG"
+log_cli = true
 
 [build-system]
 requires = ["pdm-pep517>=1.0.0"]

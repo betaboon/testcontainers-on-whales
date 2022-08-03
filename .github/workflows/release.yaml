@@ -1,0 +1,72 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        python-version: ["3.7", "3.8", "3.9", "3.10"]
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up PDM
+        uses: pdm-project/setup-pdm@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: __pypackages__
+          key: build-${{ matrix.os }}-python-${{ matrix.python-version }}-${{ hashFiles('pdm.lock') }}
+      - name: Install dependencies
+        run: pdm sync
+      - name: Run build
+        run: pdm build
+      - name: Upload build output
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-output
+          path: ${{ github.workspace }}/dist/*
+          retention-days: 1
+          if-no-files-found: error
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Download build output
+        uses: actions/download-artifact@v3
+        with:
+          name: build-output
+          path: dist
+      - name: List build output
+        run: ls -Rl ./dist
+      - name: Set up PDM
+        uses: pdm-project/setup-pdm@v2
+      - id: cz
+        name: Create tag and changelog
+        uses: commitizen-tools/commitizen-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          changelog_increment_filename: body.md
+      - name: Create github release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.cz.outputs.version }}
+          body_path: body.md
+          files: dist/*
+      - name: Create pypi release
+        env:
+          PDM_PUBLISH_USERNAME: __token__
+          PDM_PUBLISH_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+        run: pdm publish --no-build

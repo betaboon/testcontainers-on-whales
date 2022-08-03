@@ -1,0 +1,85 @@
+[project]
+license = {text = "MIT"}
+authors = [
+    {name = "betaboon", email = "betaboon@0x80.ninja"},
+]
+name = "testcontainers-on-whales"
+description = "A library that provides lightweight, throwaway instances of common databases, Selenium web browsers, or anything else that can run in a container."
+readme = "README.md"
+keywords = ["testing", "containers", "podman", "docker", "test automation"]
+classifiers = [
+    "Topic :: Software Development :: Build Tools",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+]
+dynamic = ["version"]
+requires-python = ">=3.7"
+dependencies = []
+
+[project.optional-dependencies]
+
+[tool.pdm.version]
+source = "file"
+path = "testcontainers_on_whales/__init__.py"
+
+[tool.pdm.scripts]
+ci-lint = "pre-commit run --show-diff-on-failure --from-ref $FROM_REF --to-ref $TO_REF"
+ci-commit-lint = "cz check --rev-range $FROM_REF..$TO_REF"
+install-git-hooks = "pre-commit install"
+lint = "pre-commit run --all-files"
+test = "pytest"
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "pre-commit>=2.20.0",
+    "commitizen>=2.29.3",
+]
+test = [
+    "pytest>=7.1.2",
+]
+
+[tool.commitizen]
+version = "0.0.2"
+version_files = [
+  "testcontainers_on_whales/__init__.py"
+]
+
+[tool.black]
+line-length = 88
+
+[tool.flake8]
+# Recommend matching the black line length (default 88),
+# rather than using the flake8 default of 79:
+max-line-length = 88
+extend-ignore = [
+    # See https://github.com/PyCQA/pycodestyle/issues/373
+    "E203",
+]
+per-file-ignores = [
+  # imported but unused
+  "__init__.py:F401",
+  # comparison to True should be 'if cond is True:' or 'if cond:'
+  "tests/*:E712",
+]
+exclude = [
+  "__pypackages__",
+  "build",
+  "dist",
+]
+
+[tool.isort]
+profile = "black"
+atomic = true
+filter_files = true
+
+[tool.pytest.ini_options]
+addopts = "-ra --ignore=__pypackages__"
+log_cli_level = "DEBUG"
+log_cli = true
+
+[build-system]
+requires = ["pdm-pep517>=1.0.0"]
+build-backend = "pdm.pep517.api"

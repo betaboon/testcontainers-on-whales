@@ -17,7 +17,9 @@ classifiers = [
 ]
 dynamic = ["version"]
 requires-python = ">=3.7"
-dependencies = []
+dependencies = [
+    "python-on-whales>=0.50.0",
+]
 
 [project.urls]
 repository = "https://github.com/betaboon/testcontainers-on-whales"

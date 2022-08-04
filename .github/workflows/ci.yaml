@@ -72,3 +72,11 @@ jobs:
         run: pdm sync -G test
       - name: Run tests
         run: pdm test
+
+  testall:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Check test matrix status
+        if: ${{ needs.test.result != 'success' }}
+        run: exit 1

@@ -5,7 +5,7 @@ import re
 import shutil
 import time
 from contextlib import AbstractContextManager
-from typing import List, Optional
+from typing import List, Optional, Union
 
 import python_on_whales
 
@@ -57,10 +57,11 @@ class Container(AbstractContextManager):
 
     @property
     def container(self) -> python_on_whales.Container:
-        if not self._container:
+        if self._container is None:
             self._container = self.client.create(
                 image=self._image,
                 command=self._command,
+                publish_all=True,
             )
         return self._container
 
@@ -97,6 +98,16 @@ class Container(AbstractContextManager):
         if not self._is_ready:
             self._is_ready = self.readiness_probe()
         return self._is_ready
+
+    def get_host_ip(self) -> str:
+        return "127.0.0.1"
+
+    def get_exposed_port(self, port: Union[str, int]) -> Union[int, None]:
+        if isinstance(port, int):
+            port = f"{port}/tcp"
+        port_binding = self.container.network_settings.ports.get(port)
+        if port_binding:
+            return port_binding[0]["HostPort"]
 
     @property
     def logs(self) -> str:

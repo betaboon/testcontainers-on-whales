@@ -71,6 +71,10 @@ class Container(AbstractContextManager):
     def __exit__(self, exception_type, exception_value, traceback) -> None:
         self.stop()
 
+    def __del__(self) -> None:
+        if self._container:
+            self._container.remove()
+
     def start(self) -> None:
         if self.is_running:
             return

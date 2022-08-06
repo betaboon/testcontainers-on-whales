@@ -7,6 +7,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "arrow"
+version = "1.2.1"
+requires_python = ">=3.6"
+summary = "Better dates & times for Python"
+dependencies = [
+    "python-dateutil>=2.7.0",
+    "typing-extensions; python_version < \"3.8\"",
+]
+
+[[package]]
 name = "atomicwrites"
 version = "1.4.1"
 requires_python = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
@@ -44,8 +54,8 @@ summary = "The Real First Universal Charset Detector. Open, modern and actively 
 
 [[package]]
 name = "click"
-version = "8.1.3"
-requires_python = ">=3.7"
+version = "8.0.3"
+requires_python = ">=3.6"
 summary = "Composable command line interface toolkit"
 dependencies = [
     "colorama; platform_system == \"Windows\"",
@@ -93,6 +103,39 @@ name = "filelock"
 version = "3.7.1"
 requires_python = ">=3.7"
 summary = "A platform independent file lock."
+
+[[package]]
+name = "gitlint"
+version = "0.17.0"
+requires_python = ">=3.6"
+summary = "Git commit message linter written in python, checks your commit messages for style."
+dependencies = [
+    "gitlint-core[trusted-deps]==0.17.0",
+]
+
+[[package]]
+name = "gitlint-core"
+version = "0.17.0"
+requires_python = ">=3.6"
+summary = "Git commit message linter written in python, checks your commit messages for style."
+dependencies = [
+    "Click>=8",
+    "arrow>=1",
+    "sh>=1.13.0; sys_platform != \"win32\"",
+]
+
+[[package]]
+name = "gitlint-core"
+version = "0.17.0"
+extras = ["trusted-deps"]
+requires_python = ">=3.6"
+summary = "Git commit message linter written in python, checks your commit messages for style."
+dependencies = [
+    "Click==8.0.3",
+    "arrow==1.2.1",
+    "gitlint-core==0.17.0",
+    "sh==1.14.2; sys_platform != \"win32\"",
+]
 
 [[package]]
 name = "identify"
@@ -232,6 +275,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "python-dateutil"
+version = "2.8.2"
+requires_python = "!=3.0.*,!=3.1.*,!=3.2.*,>=2.7"
+summary = "Extensions to the standard Python datetime module"
+dependencies = [
+    "six>=1.5",
+]
+
+[[package]]
 name = "python-on-whales"
 version = "0.50.0"
 requires_python = ">=3.7, <4"
@@ -276,6 +328,17 @@ name = "setuptools"
 version = "63.4.1"
 requires_python = ">=3.7"
 summary = "Easily download, build, install, upgrade, and uninstall Python packages"
+
+[[package]]
+name = "sh"
+version = "1.14.2"
+summary = "Python subprocess replacement"
+
+[[package]]
+name = "six"
+version = "1.16.0"
+requires_python = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
+summary = "Python 2 and 3 compatibility utilities"
 
 [[package]]
 name = "termcolor"
@@ -355,12 +418,16 @@ summary = "Backport of pathlib-compatible object wrapper for zip files"
 
 [metadata]
 lock_version = "4.0"
-content_hash = "sha256:2b3c641bfe5bb2cddf8613c7952e9b04cb371948284608650e810e124f48bbb8"
+content_hash = "sha256:43acfe884fc583789a1d4107fcaef487a73e778aeb7665c72b046a957f95aad7"
 
 [metadata.files]
 "argcomplete 1.12.3" = [
     {url = "https://files.pythonhosted.org/packages/6a/b4/3b1d48b61be122c95f4a770b2f42fc2552857616feba4d51f34611bd1352/argcomplete-1.12.3.tar.gz", hash = "sha256:2c7dbffd8c045ea534921e63b0be6fe65e88599990d8dc408ac8c542b72a5445"},
     {url = "https://files.pythonhosted.org/packages/b7/9e/9dc74d330c07866d72f62d553fe8bdbe32786ff247a14e68b5659963e6bd/argcomplete-1.12.3-py2.py3-none-any.whl", hash = "sha256:291f0beca7fd49ce285d2f10e4c1c77e9460cf823eef2de54df0c0fec88b0d81"},
+]
+"arrow 1.2.1" = [
+    {url = "https://files.pythonhosted.org/packages/25/e2/85d4a709a3ea58f8e36b4db9eb7927560a2fa4b6f8f362fb6475962fec51/arrow-1.2.1.tar.gz", hash = "sha256:c2dde3c382d9f7e6922ce636bf0b318a7a853df40ecb383b29192e6c5cc82840"},
+    {url = "https://files.pythonhosted.org/packages/f4/97/a6b394b0ee6c9a7f645308f3a205c6cfe4fc804aac1bf29e4aebb5cd5a16/arrow-1.2.1-py3-none-any.whl", hash = "sha256:6b2914ef3997d1fd7b37a71ce9dd61a6e329d09e1c7b44f4d3099ca4a5c0933e"},
 ]
 "atomicwrites 1.4.1" = [
     {url = "https://files.pythonhosted.org/packages/87/c6/53da25344e3e3a9c01095a89f16dbcda021c609ddb42dd6d7c0528236fb2/atomicwrites-1.4.1.tar.gz", hash = "sha256:81b2c9071a49367a7f770170e5eec8cb66567cfbbc8c73d20ce5ca4a8d71cf11"},
@@ -385,9 +452,9 @@ content_hash = "sha256:2b3c641bfe5bb2cddf8613c7952e9b04cb371948284608650e810e124
     {url = "https://files.pythonhosted.org/packages/93/1d/d9392056df6670ae2a29fcb04cfa5cee9f6fbde7311a1bb511d4115e9b7a/charset-normalizer-2.1.0.tar.gz", hash = "sha256:575e708016ff3a5e3681541cb9d79312c416835686d054a23accb873b254f413"},
     {url = "https://files.pythonhosted.org/packages/94/69/64b11e8c2fb21f08634468caef885112e682b0ebe2908e74d3616eb1c113/charset_normalizer-2.1.0-py3-none-any.whl", hash = "sha256:5189b6f22b01957427f35b6a08d9a0bc45b46d3788ef5a92e978433c7a35f8a5"},
 ]
-"click 8.1.3" = [
-    {url = "https://files.pythonhosted.org/packages/59/87/84326af34517fca8c58418d148f2403df25303e02736832403587318e9e8/click-8.1.3.tar.gz", hash = "sha256:7682dc8afb30297001674575ea00d1814d808d6a36af415a82bd481d37ba7b8e"},
-    {url = "https://files.pythonhosted.org/packages/c2/f1/df59e28c642d583f7dacffb1e0965d0e00b218e0186d7858ac5233dce840/click-8.1.3-py3-none-any.whl", hash = "sha256:bb4d8133cb15a609f44e8213d9b391b0809795062913b383c62be0ee95b1db48"},
+"click 8.0.3" = [
+    {url = "https://files.pythonhosted.org/packages/48/58/c8aa6a8e62cc75f39fee1092c45d6b6ba684122697d7ce7d53f64f98a129/click-8.0.3-py3-none-any.whl", hash = "sha256:353f466495adaeb40b6b5f592f9f91cb22372351c84caeb068132442a4518ef3"},
+    {url = "https://files.pythonhosted.org/packages/f4/09/ad003f1e3428017d1c3da4ccc9547591703ffea548626f47ec74509c5824/click-8.0.3.tar.gz", hash = "sha256:410e932b050f5eed773c4cda94de75971c89cdb3155a72a0831139a79e5ecb5b"},
 ]
 "colorama 0.4.5" = [
     {url = "https://files.pythonhosted.org/packages/2b/65/24d033a9325ce42ccbfa3ca2d0866c7e89cc68e5b9d92ecaba9feef631df/colorama-0.4.5.tar.gz", hash = "sha256:e6c6b4334fc50988a639d9b98aa429a0b57da6e17b9a44f0451f930b6967b7a4"},
@@ -408,6 +475,14 @@ content_hash = "sha256:2b3c641bfe5bb2cddf8613c7952e9b04cb371948284608650e810e124
 "filelock 3.7.1" = [
     {url = "https://files.pythonhosted.org/packages/a6/d5/17f02b379525d1ff9678bfa58eb9548f561c8826deb0b85797aa0eed582d/filelock-3.7.1-py3-none-any.whl", hash = "sha256:37def7b658813cda163b56fc564cdc75e86d338246458c4c28ae84cabefa2404"},
     {url = "https://files.pythonhosted.org/packages/f3/c7/5c1aef87f1197d2134a096c0264890969213c9cbfb8a4102087e8d758b5c/filelock-3.7.1.tar.gz", hash = "sha256:3a0fd85166ad9dbab54c9aec96737b744106dc5f15c0b09a6744a445299fcf04"},
+]
+"gitlint 0.17.0" = [
+    {url = "https://files.pythonhosted.org/packages/92/15/8850b30ac84e47ae7af0d50b63da171c19a63fa947139efa8de7a3cbc9a6/gitlint-0.17.0.tar.gz", hash = "sha256:8c10c6b404d255b43ddc4a2f5f13bcb10284bc162adfb2c03b10708309009189"},
+    {url = "https://files.pythonhosted.org/packages/c8/50/a759ace81525668830a23840e6a8d5d8562f202aef39decca9388f10614f/gitlint-0.17.0-py2.py3-none-any.whl", hash = "sha256:46469d5db3f3bca72fa946c159d0733dc8c75211309477676295cf2d80d177b4"},
+]
+"gitlint-core 0.17.0" = [
+    {url = "https://files.pythonhosted.org/packages/64/dd/d8f1226885b107bda6b97b63566381a37d61187562f32eae77e71e8fa261/gitlint_core-0.17.0-py2.py3-none-any.whl", hash = "sha256:cb99ccd736a698b910385211203bda94bf4ce29086d0c08f8f58a18c40a98377"},
+    {url = "https://files.pythonhosted.org/packages/91/77/2fc5418edff33060dd7a51aa323ee7d3df11503952b8e4e46ee65d18d815/gitlint-core-0.17.0.tar.gz", hash = "sha256:772dfd33effaa8515ca73e901466aa938c19ced894bec6783d19691f57429691"},
 ]
 "identify 2.5.3" = [
     {url = "https://files.pythonhosted.org/packages/0c/ed/ee58d0ae16c7407762171c493db655b19b68c40d15b4294ef5d827ee33ea/identify-2.5.3-py2.py3-none-any.whl", hash = "sha256:25851c8c1370effb22aaa3c987b30449e9ff0cece408f810ae6ce408fdd20893"},
@@ -544,6 +619,10 @@ content_hash = "sha256:2b3c641bfe5bb2cddf8613c7952e9b04cb371948284608650e810e124
     {url = "https://files.pythonhosted.org/packages/4e/1f/34657c6ac56f3c58df650ba41f8ffb2620281ead8e11bcdc7db63cf72a78/pytest-7.1.2.tar.gz", hash = "sha256:a06a0425453864a270bc45e71f783330a7428defb4230fb5e6a731fde06ecd45"},
     {url = "https://files.pythonhosted.org/packages/fb/d0/bae533985f2338c5d02184b4a7083b819f6b3fc101da792e0d96e6e5299d/pytest-7.1.2-py3-none-any.whl", hash = "sha256:13d0e3ccfc2b6e26be000cb6568c832ba67ba32e719443bfe725814d3c42433c"},
 ]
+"python-dateutil 2.8.2" = [
+    {url = "https://files.pythonhosted.org/packages/36/7a/87837f39d0296e723bb9b62bbb257d0355c7f6128853c78955f57342a56d/python_dateutil-2.8.2-py2.py3-none-any.whl", hash = "sha256:961d03dc3453ebbc59dbdea9e4e11c5651520a876d0f4db161e8674aae935da9"},
+    {url = "https://files.pythonhosted.org/packages/4c/c4/13b4776ea2d76c115c1d1b84579f3764ee6d57204f6be27119f13a61d0a9/python-dateutil-2.8.2.tar.gz", hash = "sha256:0123cacc1627ae19ddf3c27a5de5bd67ee4586fbdd6440d9748f8abb483d3e86"},
+]
 "python-on-whales 0.50.0" = [
     {url = "https://files.pythonhosted.org/packages/33/1f/6ffacb9306157c44d6b380fd69808d8db7af7c0b6531edb4f0fe5675cd47/python-on-whales-0.50.0.tar.gz", hash = "sha256:6076cb5e39fde85c4e8a8dd7d354c311908fd42c0f355be3a1087fd4cc82db7e"},
     {url = "https://files.pythonhosted.org/packages/c9/ec/c0020ee9ead6bc9b90f7ae018cd51ffd71f2490dc6fe149710501c9c0fc0/python_on_whales-0.50.0-py3-none-any.whl", hash = "sha256:9b6e693076292bc9a06feb98c5008e950a062338682454db0eee63cb0a952694"},
@@ -594,6 +673,14 @@ content_hash = "sha256:2b3c641bfe5bb2cddf8613c7952e9b04cb371948284608650e810e124
 "setuptools 63.4.1" = [
     {url = "https://files.pythonhosted.org/packages/63/2e/e1f3e1b02d7ff0baa356413e93ad8a88706accd6b3538e18204a8a00c42d/setuptools-63.4.1.tar.gz", hash = "sha256:7c7854ee1429a240090297628dc9f75b35318d193537968e2dc14010ee2f5bca"},
     {url = "https://files.pythonhosted.org/packages/90/2e/109766d7f3cb854a083dd66bfc0bf2bf9e40f373829efedb4b5e0d104aa3/setuptools-63.4.1-py3-none-any.whl", hash = "sha256:dc2662692f47d99cb8ae15a784529adeed535bcd7c277fee0beccf961522baf6"},
+]
+"sh 1.14.2" = [
+    {url = "https://files.pythonhosted.org/packages/7a/c3/0836b7b975d09428d90f926dc1f86e2d76d721cf79bd6659838761c35f85/sh-1.14.2-py2.py3-none-any.whl", hash = "sha256:4921ac9c1a77ec8084bdfaf152fe14138e2b3557cc740002c1a97076321fce8a"},
+    {url = "https://files.pythonhosted.org/packages/80/39/ed280d183c322453e276a518605b2435f682342f2c3bcf63228404d36375/sh-1.14.2.tar.gz", hash = "sha256:9d7bd0334d494b2a4609fe521b2107438cdb21c0e469ffeeb191489883d6fe0d"},
+]
+"six 1.16.0" = [
+    {url = "https://files.pythonhosted.org/packages/71/39/171f1c67cd00715f190ba0b100d606d440a28c93c7714febeca8b79af85e/six-1.16.0.tar.gz", hash = "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926"},
+    {url = "https://files.pythonhosted.org/packages/d9/5a/e7c31adbe875f2abbb91bd84cf2dc52d792b5a01506781dbcf25c91daf11/six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},
 ]
 "termcolor 1.1.0" = [
     {url = "https://files.pythonhosted.org/packages/8a/48/a76be51647d0eb9f10e2a4511bf3ffb8cc1e6b14e9e4fab46173aa79f981/termcolor-1.1.0.tar.gz", hash = "sha256:1d6d69ce66211143803fbc56652b41d73b4a400a2891d7bf7a1cdf4c02de613b"},

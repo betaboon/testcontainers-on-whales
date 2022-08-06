@@ -31,6 +31,7 @@ changelog = "https://github.com/betaboon/testcontainers-on-whales/blob/main/CHAN
 dev = [
     "pre-commit>=2.20.0",
     "commitizen>=2.29.3",
+    "gitlint>=0.17.0",
 ]
 test = [
     "pytest>=7.1.2",
@@ -51,8 +52,10 @@ cmd = [
 
 [tool.pdm.scripts.ci-commit-lint]
 cmd = [
-  "cz", "check",
-  "--rev-range", "$FROM_REF..$TO_REF",
+  "gitlint",
+  "--contrib", "contrib-title-conventional-commits",
+  "--ignore", "body-is-missing",
+  "--commits", "$FROM_REF..$TO_REF",
 ]
 
 [tool.pdm.version]

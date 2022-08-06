@@ -14,8 +14,11 @@ repos:
     rev: 5.10.1
     hooks:
       - id: isort
-  - repo: https://github.com/commitizen-tools/commitizen
-    rev: v2.29.3
+  - repo: https://github.com/jorisroovers/gitlint
+    rev: v0.17.0
     hooks:
-      - id: commitizen
-        stages: [commit-msg]
+      - id: gitlint
+        args:
+          - --contrib=contrib-title-conventional-commits
+          - --ignore=body-is-missing
+          - --msg-filename

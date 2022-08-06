@@ -6,12 +6,52 @@ on:
       - main
 
 jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      changelog: ${{ steps.changelog.outputs.changelog }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Set up PDM
+        uses: pdm-project/setup-pdm@v2
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: __pypackages__
+          key: prepare-${{ hashFiles('pdm.lock') }}
+      - name: Install dependencies
+        run: pdm sync -d
+      - id: version
+        name: Generate version
+        run: echo "::set-output name=version::$(pdm ci-version)"
+      - name: Generate changelog
+        run: pdm ci-changelog | tee CHANGELOG.md
+      - name: Upload changelog artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: changelog
+          path: ${{ github.workspace }}/CHANGELOG.md
+          retention-days: 1
+          if-no-files-found: error
+      - name: Generate job summary
+        run: |
+          echo "### Version: ${{ steps.version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          cat CHANGELOG.md >> $GITHUB_STEP_SUMMARY
+
   build:
+    needs: prepare
     strategy:
       matrix:
         python-version: ["3.7", "3.8", "3.9", "3.10"]
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
+    env:
+      PDM_PEP517_SCM_VERSION: ${{ needs.prepare.outputs.version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -26,47 +66,36 @@ jobs:
           key: build-${{ matrix.os }}-python-${{ matrix.python-version }}-${{ hashFiles('pdm.lock') }}
       - name: Install dependencies
         run: pdm sync
+      - name: Remove dummy-version-file
+        # this is required so that pdm can recreate it
+        run: rm testcontainers_on_whales/__version__.py
       - name: Run build
         run: pdm build
       - name: Upload build output
         uses: actions/upload-artifact@v3
         with:
-          name: build-output
-          path: ${{ github.workspace }}/dist/*
+          name: dist
+          path: ${{ github.workspace }}/dist
           retention-days: 1
           if-no-files-found: error
 
-  release:
-    needs: build
+  publish:
+    needs:
+      - prepare
+      - build
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Download build output
+      - name: Download artifacts
+        id: download
         uses: actions/download-artifact@v3
+      - name: Publish gh-release
+        uses: ncipollo/release-action@v1
         with:
-          name: build-output
-          path: dist
-      - name: List build output
-        run: ls -Rl ./dist
-      - name: Set up PDM
-        uses: pdm-project/setup-pdm@v2
-      - id: cz
-        name: Create tag and changelog
-        uses: commitizen-tools/commitizen-action@master
+          tag: ${{ needs.prepare.outputs.version }}
+          bodyFile: ${{ steps.download.outputs.download-path }}/changelog/CHANGELOG.md
+          artifacts: ${{ steps.download.outputs.download-path }}/dist/*
+      - name: Publish pypi
+        uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          changelog_increment_filename: body.md
-      - name: Create github release
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: ${{ steps.cz.outputs.version }}
-          body_path: body.md
-          files: dist/*
-      - name: Create pypi release
-        env:
-          PDM_PUBLISH_USERNAME: __token__
-          PDM_PUBLISH_PASSWORD: ${{ secrets.PYPI_TOKEN }}
-        run: pdm publish --no-build
+          password: ${{ secrets.PYPI_TOKEN }}
+          packages_dir: ${{ steps.download.outputs.download-path }}/dist/

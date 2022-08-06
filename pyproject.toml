@@ -23,7 +23,7 @@ dependencies = [
 
 [project.urls]
 repository = "https://github.com/betaboon/testcontainers-on-whales"
-changelog = "https://github.com/betaboon/testcontainers-on-whales/blob/main/CHANGELOG.md"
+changelog = "https://github.com/betaboon/testcontainers-on-whales/releases"
 
 [project.optional-dependencies]
 

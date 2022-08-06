@@ -36,8 +36,7 @@ def test_container_wait_ready():
             super().__init__(**kwargs)
             self._readiness_probes = 0
 
-        @property
-        def is_ready(self) -> bool:
+        def readiness_probe(self) -> bool:
             self._readiness_probes += 1
             if self._readiness_probes == 2:
                 return True
@@ -46,6 +45,7 @@ def test_container_wait_ready():
 
     with CustomContainer(image="alpine") as container:
         time_to_ready = container.wait_ready(interval=0.1)
+        assert container.is_ready == True
         assert container._readiness_probes == 2
         assert round(time_to_ready, 1) == 0.2
 
@@ -56,8 +56,7 @@ def test_container_wait_ready_timeout_raises():
             super().__init__(**kwargs)
             self._readiness_probes = 0
 
-        @property
-        def is_ready(self) -> bool:
+        def readiness_probe(self) -> bool:
             self._readiness_probes += 1
             if self._readiness_probes == 5:
                 return True

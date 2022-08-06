@@ -33,6 +33,7 @@ class Container(AbstractContextManager):
 
         self._client = None
         self._container = None
+        self._is_ready = False
 
     @property
     def client_call(self) -> List[str]:
@@ -84,9 +85,14 @@ class Container(AbstractContextManager):
     def is_running(self) -> bool:
         return self.container.state.running
 
+    def readiness_probe(self) -> bool:
+        return True
+
     @property
     def is_ready(self) -> bool:
-        return True
+        if not self._is_ready:
+            self._is_ready = self.readiness_probe()
+        return self._is_ready
 
     @property
     def logs(self) -> str:

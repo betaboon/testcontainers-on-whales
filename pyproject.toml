@@ -25,16 +25,7 @@ dependencies = [
 repository = "https://github.com/betaboon/testcontainers-on-whales"
 changelog = "https://github.com/betaboon/testcontainers-on-whales/blob/main/CHANGELOG.md"
 
-[tool.pdm.version]
-source = "file"
-path = "testcontainers_on_whales/__init__.py"
-
-[tool.pdm.scripts]
-ci-lint = "pre-commit run --show-diff-on-failure --from-ref $FROM_REF --to-ref $TO_REF"
-ci-commit-lint = "cz check --rev-range $FROM_REF..$TO_REF"
-install-git-hooks = "pre-commit install"
-lint = "pre-commit run --all-files"
-test = "pytest"
+[project.optional-dependencies]
 
 [tool.pdm.dev-dependencies]
 dev = [
@@ -44,6 +35,29 @@ dev = [
 test = [
     "pytest>=7.1.2",
 ]
+
+[tool.pdm.scripts]
+install-git-hooks = "pre-commit install"
+lint = "pre-commit run --all-files"
+test = "pytest"
+
+[tool.pdm.scripts.ci-lint]
+cmd = [
+  "pre-commit", "run",
+  "--show-diff-on-failure",
+  "--from-ref", "$FROM_REF",
+  "--to-ref", "$TO_REF",
+]
+
+[tool.pdm.scripts.ci-commit-lint]
+cmd = [
+  "cz", "check",
+  "--rev-range", "$FROM_REF..$TO_REF",
+]
+
+[tool.pdm.version]
+source = "file"
+path = "testcontainers_on_whales/__init__.py"
 
 [tool.commitizen]
 version = "0.0.2"

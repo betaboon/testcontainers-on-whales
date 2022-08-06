@@ -37,7 +37,7 @@ test = [
 ]
 
 [tool.pdm.scripts]
-install-git-hooks = "pre-commit install"
+install-git-hooks = "pre-commit install --install-hooks"
 lint = "pre-commit run --all-files"
 test = "pytest"
 

@@ -30,8 +30,8 @@ changelog = "https://github.com/betaboon/testcontainers-on-whales/blob/main/CHAN
 [tool.pdm.dev-dependencies]
 dev = [
     "pre-commit>=2.20.0",
-    "commitizen>=2.29.3",
     "gitlint>=0.17.0",
+    "python-semantic-release @ git+https://github.com/betaboon/python-semantic-release.git@85eae44b00ed01e5fe531403999c730eb4fa58fa",
 ]
 test = [
     "pytest>=7.1.2",
@@ -58,15 +58,22 @@ cmd = [
   "--commits", "$FROM_REF..$TO_REF",
 ]
 
-[tool.pdm.version]
-source = "file"
-path = "testcontainers_on_whales/__init__.py"
+[tool.pdm.scripts.ci-version]
+cmd = "semantic-release print-version --next"
 
-[tool.commitizen]
-version = "0.0.2"
-version_files = [
-  "testcontainers_on_whales/__init__.py"
-]
+[tool.pdm.scripts.ci-changelog]
+cmd = "semantic-release changelog --unreleased"
+
+[tool.pdm.version]
+source = "scm"
+write_to = "testcontainers_on_whales/__version__.py"
+write_template = "__version __ = '{}'"
+
+[tool.semantic_release]
+branch = "main"
+version_source = "tag_only"
+version_pattern = "d+.d+.d+"
+tag_format = "{version}"
 
 [tool.black]
 line-length = 88

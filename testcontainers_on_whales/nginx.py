@@ -6,7 +6,10 @@ from testcontainers_on_whales import Container
 class NginxContainer(Container):
     NGINX_PORT = 80
 
-    def __init__(self, image: str = "nginx:alpine") -> None:
+    def __init__(
+        self,
+        image: str = "docker.io/library/nginx:alpine",
+    ) -> None:
         super().__init__(image=image)
 
     def get_connection_url(self) -> str:

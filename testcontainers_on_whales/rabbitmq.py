@@ -8,7 +8,7 @@ class RabbitmqContainer(Container):
 
     def __init__(
         self,
-        image: str = "rabbitmq:alpine",
+        image: str = "docker.io/library/rabbitmq:alpine",
         username: str = "guest",
         password: str = "guest",
     ) -> None:

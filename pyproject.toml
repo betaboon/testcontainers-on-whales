@@ -80,7 +80,7 @@ cmd = "semantic-release changelog --unreleased"
 [tool.pdm.version]
 source = "scm"
 write_to = "testcontainers_on_whales/__version__.py"
-write_template = "__version __ = '{}'"
+write_template = "__version__ = '{}'"
 
 [tool.semantic_release]
 branch = "main"

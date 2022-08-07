@@ -24,10 +24,12 @@ class Container(AbstractContextManager):
         self,
         image: str,
         command: list[str] = [],
+        env: dict[str, str] = {},
         client_call: list[str] | None = None,
     ) -> None:
         self._image = image
         self._command = command
+        self._env = env
         self._client_call = client_call
 
         self._client = None
@@ -60,6 +62,7 @@ class Container(AbstractContextManager):
             self._container = self.client.create(
                 image=self._image,
                 command=self._command,
+                envs=self._env,
                 publish_all=True,
             )
         return self._container

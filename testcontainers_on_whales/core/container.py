@@ -8,15 +8,9 @@ from contextlib import AbstractContextManager
 
 import python_on_whales
 
+from testcontainers_on_whales.core.exceptions import ContainerRuntimeNotFoundException
+
 logger = logging.getLogger(__name__)
-
-
-class ContainerRuntimeException(Exception):
-    pass
-
-
-class ContainerRuntimeNotFoundException(ContainerRuntimeException):
-    pass
 
 
 class Container(AbstractContextManager):

@@ -8,7 +8,7 @@ class PostgresContainer(Container):
 
     def __init__(
         self,
-        image: str = "postgres:alpine",
+        image: str = "docker.io/library/postgres:alpine",
         username: str = "test",
         password: str = "test",
         database_name: str = "test",

@@ -10,7 +10,7 @@ class RedisContainer(Container):
 
     def __init__(
         self,
-        image: str = "redis:alpine",
+        image: str = "docker.io/library/redis:alpine",
         password: str | None = None,
     ) -> None:
         self.password = password

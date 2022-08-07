@@ -5,7 +5,6 @@ import re
 import shutil
 import time
 from contextlib import AbstractContextManager
-from typing import List, Optional, Union
 
 import python_on_whales
 
@@ -24,8 +23,8 @@ class Container(AbstractContextManager):
     def __init__(
         self,
         image: str,
-        command: List[str] = [],
-        client_call: Optional[List[str]] = None,
+        command: list[str] = [],
+        client_call: list[str] | None = None,
     ) -> None:
         self._image = image
         self._command = command
@@ -36,7 +35,7 @@ class Container(AbstractContextManager):
         self._is_ready = False
 
     @property
-    def client_call(self) -> List[str]:
+    def client_call(self) -> list[str]:
         if self._client_call is None:
             if shutil.which("podman"):
                 logger.debug("detected container-runtime: podman")
@@ -102,7 +101,7 @@ class Container(AbstractContextManager):
     def get_host_ip(self) -> str:
         return "127.0.0.1"
 
-    def get_exposed_port(self, port: Union[str, int]) -> Union[int, None]:
+    def get_exposed_port(self, port: str | int) -> int | None:
         if isinstance(port, int):
             port = f"{port}/tcp"
         port_binding = self.container.network_settings.ports.get(port)
@@ -115,7 +114,7 @@ class Container(AbstractContextManager):
 
     def wait_exited(
         self,
-        timeout: Optional[float] = None,
+        timeout: float | None = None,
         interval: float = 1,
     ) -> float:
         start = time.time()
@@ -129,7 +128,7 @@ class Container(AbstractContextManager):
 
     def wait_ready(
         self,
-        timeout: Optional[float] = None,
+        timeout: float | None = None,
         interval: float = 1,
     ) -> float:
         start = time.time()
@@ -146,7 +145,7 @@ class Container(AbstractContextManager):
     def wait_logs_match(
         self,
         pattern: str,
-        timeout: Optional[float] = None,
+        timeout: float | None = None,
         interval: float = 1,
     ) -> float:
         prog = re.compile(pattern)

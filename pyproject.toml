@@ -18,7 +18,7 @@ classifiers = [
 dynamic = ["version"]
 requires-python = ">=3.7"
 dependencies = [
-    "python-on-whales>=0.50.0",
+    "python-on-whales @ git+https://github.com/betaboon/python-on-whales@c685880fdabe25a5c71b94fca68a5ed69d4e1aa7",
 ]
 
 [project.urls]

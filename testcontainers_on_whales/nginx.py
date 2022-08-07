@@ -4,11 +4,11 @@ from testcontainers_on_whales import Container
 
 
 class NginxContainer(Container):
-    NGINX_PORT = 80
+    NGINX_PORT = 8080
 
     def __init__(
         self,
-        image: str = "docker.io/library/nginx:alpine",
+        image: str = "docker.io/nginxinc/nginx-unprivileged:alpine",
     ) -> None:
         super().__init__(image=image)
 

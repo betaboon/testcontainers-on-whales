@@ -374,11 +374,8 @@ dependencies = [
 
 [[package]]
 name = "python-on-whales"
-version = "0.51.0"
+version = "0.51.1"
 requires_python = ">=3.7, <4"
-git = "https://github.com/betaboon/python-on-whales"
-ref = "c685880fdabe25a5c71b94fca68a5ed69d4e1aa7"
-revision = "c685880fdabe25a5c71b94fca68a5ed69d4e1aa7"
 summary = "A Docker client for Python, designed to be fun and intuitive!"
 dependencies = [
     "pydantic",
@@ -623,7 +620,7 @@ summary = "Backport of pathlib-compatible object wrapper for zip files"
 
 [metadata]
 lock_version = "4.0"
-content_hash = "sha256:098c808d4ac3bf0026e18119c09436b57e20c947f0e893fadda537f2c76b2508"
+content_hash = "sha256:732ca2abeba64a887668f67f23a7e1dc2f6e3aff5ece0ccb266a770b0c67962f"
 
 [metadata.files]
 "arrow 1.2.1" = [
@@ -1030,6 +1027,10 @@ content_hash = "sha256:098c808d4ac3bf0026e18119c09436b57e20c947f0e893fadda537f2c
 "python-gitlab 3.8.0" = [
     {url = "https://files.pythonhosted.org/packages/15/ce/5a623b78dcc27fa199b1d43d8939a7ebd795190a80802a3edd985cdaea9d/python-gitlab-3.8.0.tar.gz", hash = "sha256:08ccb2d2db6882bca76e370b0b7fee724e978b1e0de2970f1a704fa451bbcfa0"},
     {url = "https://files.pythonhosted.org/packages/d3/9e/94bf64bf95b9600794a0f38e8066b0077c03cd7fa4cfe3d30566d5fccbff/python_gitlab-3.8.0-py3-none-any.whl", hash = "sha256:a6c26e5fa9f211d711b15b7e151d8667d8dd9a6194038c3ae81160d2c2f0b25c"},
+]
+"python-on-whales 0.51.1" = [
+    {url = "https://files.pythonhosted.org/packages/9b/9a/d866160273b0cc8e071b4386a0a1bb02c8e37fc09c909e2d7ab755b81da9/python_on_whales-0.51.1-py3-none-any.whl", hash = "sha256:370bdc1eda05ef942eaa3ce71f9d20cbd594a287e7b647babe432a1250d9599e"},
+    {url = "https://files.pythonhosted.org/packages/e3/c2/499bf4fdf80fbc63155d5026ea8b5d09d8a9ac2f93870c2764da384f31ac/python-on-whales-0.51.1.tar.gz", hash = "sha256:a3463ea549f64bd4fd56c881a8f8f99705bc8e3b00aea9d6a9e05cd6b7a4fd52"},
 ]
 "pywin32-ctypes 0.2.0" = [
     {url = "https://files.pythonhosted.org/packages/7a/7d/0dbc4c99379452a819b0fb075a0ffbb98611df6b6d59f54db67367af5bc0/pywin32-ctypes-0.2.0.tar.gz", hash = "sha256:24ffc3b341d457d48e8922352130cf2644024a4ff09762a2261fd34c36ee5942"},

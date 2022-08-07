@@ -26,6 +26,9 @@ repository = "https://github.com/betaboon/testcontainers-on-whales"
 changelog = "https://github.com/betaboon/testcontainers-on-whales/releases"
 
 [project.optional-dependencies]
+nginx = [
+    "requests>=2.28.1",
+]
 
 [tool.pdm.dev-dependencies]
 dev = [

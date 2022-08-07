@@ -35,6 +35,10 @@ rabbitmq = [
 redis = [
     "redis>=4.3.4",
 ]
+postgres = [
+    "psycopg2-binary>=2.9.3",
+    "sqlalchemy>=1.4.39",
+]
 
 [tool.pdm.dev-dependencies]
 dev = [

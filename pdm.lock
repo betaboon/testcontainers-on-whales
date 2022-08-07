@@ -233,6 +233,11 @@ dependencies = [
 ]
 
 [[package]]
+name = "pika"
+version = "1.3.0"
+summary = "Pika Python AMQP Client Library"
+
+[[package]]
 name = "pkginfo"
 version = "1.8.3"
 requires_python = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*"
@@ -339,8 +344,11 @@ dependencies = [
 
 [[package]]
 name = "python-on-whales"
-version = "0.50.0"
+version = "0.51.0"
 requires_python = ">=3.7, <4"
+git = "https://github.com/betaboon/python-on-whales"
+ref = "c685880fdabe25a5c71b94fca68a5ed69d4e1aa7"
+revision = "c685880fdabe25a5c71b94fca68a5ed69d4e1aa7"
 summary = "A Docker client for Python, designed to be fun and intuitive!"
 dependencies = [
     "pydantic",
@@ -556,7 +564,7 @@ summary = "Backport of pathlib-compatible object wrapper for zip files"
 
 [metadata]
 lock_version = "4.0"
-content_hash = "sha256:5b93a42ea6bee459aff4de28a3e9d7cdc9b56d14945027db4a7b8ae3d0ad7fee"
+content_hash = "sha256:3115324027dd2f7ac7cd63c3263e72b829357aa37d73c04d18816af01d8a84ac"
 
 [metadata.files]
 "arrow 1.2.1" = [
@@ -756,6 +764,10 @@ content_hash = "sha256:5b93a42ea6bee459aff4de28a3e9d7cdc9b56d14945027db4a7b8ae3d
     {url = "https://files.pythonhosted.org/packages/05/8e/8de486cbd03baba4deef4142bd643a3e7bbe954a784dc1bb17142572d127/packaging-21.3-py3-none-any.whl", hash = "sha256:ef103e05f519cdc783ae24ea4e2e0f508a9c99b2d4969652eed6a2e1ea5bd522"},
     {url = "https://files.pythonhosted.org/packages/df/9e/d1a7217f69310c1db8fdf8ab396229f55a699ce34a203691794c5d1cad0c/packaging-21.3.tar.gz", hash = "sha256:dd47c42927d89ab911e606518907cc2d3a1f38bbd026385970643f9c5b8ecfeb"},
 ]
+"pika 1.3.0" = [
+    {url = "https://files.pythonhosted.org/packages/c8/d9/e44e4aa49f1bef15efc21147cbc032d07177ab300f947d915eafb3283af0/pika-1.3.0-py3-none-any.whl", hash = "sha256:9195f37aed089862b205fd8f8ce1cc6ea0a7ee3cd80f58e6eea6cb9d8411a647"},
+    {url = "https://files.pythonhosted.org/packages/cc/6e/8baa90dc8de34c0c24dab067780fe01fceb114c72d7b0448a3667af900d6/pika-1.3.0.tar.gz", hash = "sha256:15357ddc47a5c28f0b07d80e93d504cbbf7a1ad5e1cd129ecd27afe76472c529"},
+]
 "pkginfo 1.8.3" = [
     {url = "https://files.pythonhosted.org/packages/00/91/fe0806e3ebded8c4e52f93ab4d963eef34bb33595c7aa7b5591d32ab5b92/pkginfo-1.8.3.tar.gz", hash = "sha256:a84da4318dd86f870a9447a8c98340aa06216bfc6f2b7bdc4b8766984ae1867c"},
     {url = "https://files.pythonhosted.org/packages/f3/28/ded592460bc65d39a48fe51d7678c408ae895ee3694d4cd404a131a73271/pkginfo-1.8.3-py2.py3-none-any.whl", hash = "sha256:848865108ec99d4901b2f7e84058b6e7660aae8ae10164e015a6dcf5b242a594"},
@@ -836,10 +848,6 @@ content_hash = "sha256:5b93a42ea6bee459aff4de28a3e9d7cdc9b56d14945027db4a7b8ae3d
 "python-gitlab 3.8.0" = [
     {url = "https://files.pythonhosted.org/packages/15/ce/5a623b78dcc27fa199b1d43d8939a7ebd795190a80802a3edd985cdaea9d/python-gitlab-3.8.0.tar.gz", hash = "sha256:08ccb2d2db6882bca76e370b0b7fee724e978b1e0de2970f1a704fa451bbcfa0"},
     {url = "https://files.pythonhosted.org/packages/d3/9e/94bf64bf95b9600794a0f38e8066b0077c03cd7fa4cfe3d30566d5fccbff/python_gitlab-3.8.0-py3-none-any.whl", hash = "sha256:a6c26e5fa9f211d711b15b7e151d8667d8dd9a6194038c3ae81160d2c2f0b25c"},
-]
-"python-on-whales 0.50.0" = [
-    {url = "https://files.pythonhosted.org/packages/33/1f/6ffacb9306157c44d6b380fd69808d8db7af7c0b6531edb4f0fe5675cd47/python-on-whales-0.50.0.tar.gz", hash = "sha256:6076cb5e39fde85c4e8a8dd7d354c311908fd42c0f355be3a1087fd4cc82db7e"},
-    {url = "https://files.pythonhosted.org/packages/c9/ec/c0020ee9ead6bc9b90f7ae018cd51ffd71f2490dc6fe149710501c9c0fc0/python_on_whales-0.50.0-py3-none-any.whl", hash = "sha256:9b6e693076292bc9a06feb98c5008e950a062338682454db0eee63cb0a952694"},
 ]
 "pywin32-ctypes 0.2.0" = [
     {url = "https://files.pythonhosted.org/packages/7a/7d/0dbc4c99379452a819b0fb075a0ffbb98611df6b6d59f54db67367af5bc0/pywin32-ctypes-0.2.0.tar.gz", hash = "sha256:24ffc3b341d457d48e8922352130cf2644024a4ff09762a2261fd34c36ee5942"},

@@ -23,8 +23,8 @@ class RabbitmqContainer(Container):
         )
 
     def get_connection_url(self) -> str:
-        ip = self.get_host_ip()
-        port = self.get_exposed_port(self.RABBITMQ_PORT)
+        ip = self.get_container_ip()
+        port = self.get_container_port(self.RABBITMQ_PORT)
         return f"amqp://{self.username}:{self.password}@{ip}:{port}"
 
     def readiness_probe(self) -> bool:
@@ -33,6 +33,8 @@ class RabbitmqContainer(Container):
             connection = pika.BlockingConnection(parameters=parameters)
             connection.close()
             return True
+        except pika.exceptions.AMQPConnectionError:
+            pass
         except pika.exceptions.IncompatibleProtocolError:
             pass
         return False

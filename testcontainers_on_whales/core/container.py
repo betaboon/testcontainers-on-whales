@@ -8,7 +8,10 @@ from contextlib import AbstractContextManager
 
 import python_on_whales
 
-from testcontainers_on_whales.core.exceptions import ContainerRuntimeNotFoundError
+from testcontainers_on_whales.core.exceptions import (
+    ContainerRuntimeNotFoundError,
+    NetworkModeUnknownError,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -57,7 +60,6 @@ class Container(AbstractContextManager):
                 image=self._image,
                 command=self._command,
                 envs=self._env,
-                publish_all=True,
             )
         return self._container
 
@@ -95,15 +97,23 @@ class Container(AbstractContextManager):
             self._is_ready = self.readiness_probe()
         return self._is_ready
 
-    def get_host_ip(self) -> str:
-        return "127.0.0.1"
+    def get_container_ip(self) -> str:
+        network_mode = self.container.host_config.network_mode
+        if network_mode == "host":
+            return "localhost"
+        elif network_mode in ("bridge", "default"):
+            return self.container.network_settings.ip_address
+        else:
+            raise NetworkModeUnknownError(network_mode=network_mode)
 
-    def get_exposed_port(self, port: str | int) -> int | None:
-        if isinstance(port, int):
-            port = f"{port}/tcp"
-        port_binding = self.container.network_settings.ports.get(port)
-        if port_binding:
-            return port_binding[0]["HostPort"]
+    def get_container_port(self, port: int | str) -> int:
+        protocol = "tcp"
+        if isinstance(port, str) and "/" in port:
+            port, protocol = port.split("/")
+        if isinstance(port, str):
+            port = int(port)
+
+        return port
 
     @property
     def logs(self) -> str:

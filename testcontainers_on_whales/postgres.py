@@ -26,8 +26,8 @@ class PostgresContainer(Container):
         )
 
     def get_connection_url(self, driver: str = "psycopg2") -> str:
-        ip = self.get_host_ip()
-        port = self.get_exposed_port(self.POSTGRES_PORT)
+        ip = self.get_container_ip()
+        port = self.get_container_port(self.POSTGRES_PORT)
         auth = f"{self.username}:{self.password}"
         return f"postgresql+{driver}://{auth}@{ip}:{port}/{self.database_name}"
 

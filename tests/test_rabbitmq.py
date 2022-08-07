@@ -23,8 +23,8 @@ def test_rabbitmq_container():
 def test_rabbitmq_container_custom_credentials():
     with RabbitmqContainer(username="custom", password="supersecure") as container:
         container.wait_ready()
-        ip = container.get_host_ip()
-        port = container.get_exposed_port(RabbitmqContainer.RABBITMQ_PORT)
+        ip = container.get_container_ip()
+        port = container.get_container_port(RabbitmqContainer.RABBITMQ_PORT)
 
         incorrect_url = f"amqp://guest:guest@{ip}:{port}"
         incorrect_parameters = pika.URLParameters(url=incorrect_url)

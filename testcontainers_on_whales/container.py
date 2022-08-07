@@ -5,7 +5,6 @@ import re
 import shutil
 import time
 from contextlib import AbstractContextManager
-from typing import List, Optional
 
 import python_on_whales
 
@@ -24,18 +23,21 @@ class Container(AbstractContextManager):
     def __init__(
         self,
         image: str,
-        command: List[str] = [],
-        client_call: Optional[List[str]] = None,
+        command: list[str] = [],
+        env: dict[str, str] = {},
+        client_call: list[str] | None = None,
     ) -> None:
         self._image = image
         self._command = command
+        self._env = env
         self._client_call = client_call
 
         self._client = None
         self._container = None
+        self._is_ready = False
 
     @property
-    def client_call(self) -> List[str]:
+    def client_call(self) -> list[str]:
         if self._client_call is None:
             if shutil.which("podman"):
                 logger.debug("detected container-runtime: podman")
@@ -56,10 +58,12 @@ class Container(AbstractContextManager):
 
     @property
     def container(self) -> python_on_whales.Container:
-        if not self._container:
+        if self._container is None:
             self._container = self.client.create(
                 image=self._image,
                 command=self._command,
+                envs=self._env,
+                publish_all=True,
             )
         return self._container
 
@@ -69,6 +73,10 @@ class Container(AbstractContextManager):
 
     def __exit__(self, exception_type, exception_value, traceback) -> None:
         self.stop()
+
+    def __del__(self) -> None:
+        if self._container:
+            self._container.remove()
 
     def start(self) -> None:
         if self.is_running:
@@ -84,9 +92,24 @@ class Container(AbstractContextManager):
     def is_running(self) -> bool:
         return self.container.state.running
 
+    def readiness_probe(self) -> bool:
+        return True
+
     @property
     def is_ready(self) -> bool:
-        return True
+        if not self._is_ready:
+            self._is_ready = self.readiness_probe()
+        return self._is_ready
+
+    def get_host_ip(self) -> str:
+        return "127.0.0.1"
+
+    def get_exposed_port(self, port: str | int) -> int | None:
+        if isinstance(port, int):
+            port = f"{port}/tcp"
+        port_binding = self.container.network_settings.ports.get(port)
+        if port_binding:
+            return port_binding[0]["HostPort"]
 
     @property
     def logs(self) -> str:
@@ -94,7 +117,7 @@ class Container(AbstractContextManager):
 
     def wait_exited(
         self,
-        timeout: Optional[float] = None,
+        timeout: float | None = None,
         interval: float = 1,
     ) -> float:
         start = time.time()
@@ -108,7 +131,7 @@ class Container(AbstractContextManager):
 
     def wait_ready(
         self,
-        timeout: Optional[float] = None,
+        timeout: float | None = None,
         interval: float = 1,
     ) -> float:
         start = time.time()
@@ -125,7 +148,7 @@ class Container(AbstractContextManager):
     def wait_logs_match(
         self,
         pattern: str,
-        timeout: Optional[float] = None,
+        timeout: float | None = None,
         interval: float = 1,
     ) -> float:
         prog = re.compile(pattern)

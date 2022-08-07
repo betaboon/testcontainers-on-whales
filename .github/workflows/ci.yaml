@@ -69,7 +69,7 @@ jobs:
           path: __pypackages__
           key: test-${{ matrix.os }}-python-${{ matrix.python-version }}-${{ hashFiles('pdm.lock') }}
       - name: Install dependencies
-        run: pdm sync -G test
+        run: pdm sync -G :all
       - name: Run tests
         run: pdm test
 

@@ -18,8 +18,8 @@ def test_redis_container():
 def test_redis_container_with_credentials():
     with RedisContainer(password="supersecure") as container:
         container.wait_ready()
-        ip = container.get_host_ip()
-        port = container.get_exposed_port(RedisContainer.REDIS_PORT)
+        ip = container.get_container_ip()
+        port = container.get_container_port(RedisContainer.REDIS_PORT)
 
         incorrect_url = f"redis://{ip}:{port}"
         incorrect_client = redis.Redis.from_url(url=incorrect_url)

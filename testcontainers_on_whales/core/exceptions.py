@@ -1,6 +1,6 @@
-class ContainerRuntimeException(Exception):
+class ContainerRuntimeError(Exception):
     pass
 
 
-class ContainerRuntimeNotFoundException(ContainerRuntimeException):
+class ContainerRuntimeNotFoundError(ContainerRuntimeError):
     pass

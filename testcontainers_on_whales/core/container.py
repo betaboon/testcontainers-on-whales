@@ -8,7 +8,7 @@ from contextlib import AbstractContextManager
 
 import python_on_whales
 
-from testcontainers_on_whales.core.exceptions import ContainerRuntimeNotFoundException
+from testcontainers_on_whales.core.exceptions import ContainerRuntimeNotFoundError
 
 logger = logging.getLogger(__name__)
 
@@ -41,7 +41,7 @@ class Container(AbstractContextManager):
                 self._client_call = ["docker"]
             else:
                 logger.error("failed to detect container-runtime")
-                raise ContainerRuntimeNotFoundException()
+                raise ContainerRuntimeNotFoundError()
         return self._client_call
 
     @property

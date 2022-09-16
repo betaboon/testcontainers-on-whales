@@ -6,7 +6,7 @@ from testcontainers_on_whales.rabbitmq import RabbitmqContainer
 
 def test_rabbitmq_container():
     with RabbitmqContainer() as container:
-        container.wait_ready()
+        container.wait_ready(timeout=120)
 
         url = container.get_connection_url()
         parameters = pika.URLParameters(url=url)
@@ -22,7 +22,7 @@ def test_rabbitmq_container():
 
 def test_rabbitmq_container_custom_credentials():
     with RabbitmqContainer(username="custom", password="supersecure") as container:
-        container.wait_ready()
+        container.wait_ready(timeout=120)
         ip = container.get_container_ip()
         port = container.get_container_port(RabbitmqContainer.RABBITMQ_PORT)
 

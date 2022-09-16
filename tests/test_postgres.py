@@ -5,7 +5,7 @@ from testcontainers_on_whales.postgres import PostgresContainer
 
 def test_postgres_container():
     with PostgresContainer() as container:
-        container.wait_ready()
+        container.wait_ready(timeout=120)
         engine = container.get_sqlalchemy_engine()
 
         metadata = MetaData()

@@ -43,7 +43,9 @@ jobs:
             ~/.cache/pre-commit
           key: lint-${{ hashFiles('pdm.lock', '.pre-commit-config.yaml') }}
       - name: Install dependencies
-        run: pdm sync -d
+        run: |
+          pdm sync -d
+          pdm install-git-hooks
       - name: Run lint
         env:
           FROM_REF: origin/${{ github.base_ref }}

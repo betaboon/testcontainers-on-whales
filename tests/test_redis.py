@@ -6,7 +6,7 @@ from testcontainers_on_whales.redis import RedisContainer
 
 def test_redis_container():
     with RedisContainer() as container:
-        container.wait_ready()
+        container.wait_ready(timeout=120)
         client = container.get_client()
 
         client.set(name="test-name", value="test-value")
@@ -17,7 +17,7 @@ def test_redis_container():
 
 def test_redis_container_with_credentials():
     with RedisContainer(password="supersecure") as container:
-        container.wait_ready()
+        container.wait_ready(timeout=120)
         ip = container.get_container_ip()
         port = container.get_container_port(RedisContainer.REDIS_PORT)
 

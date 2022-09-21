@@ -44,7 +44,7 @@ def test_container_wait_ready():
             return False
 
     with CustomContainer(image="alpine") as container:
-        time_to_ready = container.wait_ready(interval=0.1)
+        time_to_ready = container.wait_ready(timeout=10, interval=0.1)
         assert container.is_ready == True
         assert container._readiness_probes == 2
         assert round(time_to_ready, 1) == 0.2

@@ -11,6 +11,7 @@ import python_on_whales
 from testcontainers_on_whales.core.exceptions import (
     ContainerRuntimeNotFoundError,
     NetworkModeUnknownError,
+    PortBindingNotFoundError,
 )
 
 logger = logging.getLogger(__name__)
@@ -60,6 +61,7 @@ class Container(AbstractContextManager):
                 image=self._image,
                 command=self._command,
                 envs=self._env,
+                publish_all=True,
             )
         return self._container
 
@@ -99,21 +101,40 @@ class Container(AbstractContextManager):
 
     def get_container_ip(self) -> str:
         network_mode = self.container.host_config.network_mode
+        network_settings = self.container.network_settings
+
         if network_mode == "host":
             return "localhost"
-        elif network_mode in ("bridge", "default"):
-            return self.container.network_settings.ip_address
-        else:
-            raise NetworkModeUnknownError(network_mode=network_mode)
+
+        if network_mode in ("bridge", "default", "slirp4netns"):
+            return network_settings.gateway or "localhost"
+
+        raise NetworkModeUnknownError(network_mode=network_mode)
 
     def get_container_port(self, port: int | str) -> int:
         protocol = "tcp"
+
         if isinstance(port, str) and "/" in port:
             port, protocol = port.split("/")
         if isinstance(port, str):
             port = int(port)
 
-        return port
+        port_name = f"{port}/{protocol}"
+        network_mode = self.container.host_config.network_mode
+        network_settings = self.container.network_settings
+
+        if network_mode == "host":
+            return port
+
+        if network_mode in ("bridge", "default", "slirp4netns"):
+            if port_name not in network_settings.ports:
+                raise PortBindingNotFoundError(port_name)
+
+            exposed_port = network_settings.ports[port_name]
+            host_port = exposed_port[0]["HostPort"]
+            return int(host_port)
+
+        raise NetworkModeUnknownError(network_mode=network_mode)
 
     @property
     def logs(self) -> str:

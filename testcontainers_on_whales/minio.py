@@ -34,7 +34,7 @@ class MinioContainer(Container):
 
     def get_connection_url(self) -> str:
         ip = self.get_container_ip()
-        port = self.MINIO_PORT
+        port = self.get_container_port(self.MINIO_PORT)
         return f"http://{ip}:{port}"
 
     def get_boto_resource(self):

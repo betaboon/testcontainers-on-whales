@@ -15,9 +15,12 @@ class MinioContainer(Container):
         image: str = "docker.io/minio/minio:latest",
         username: str = "minioadmin",
         password: str = "minioadmin",
+        extra_env: dict = None,
     ):
         self.username = username
         self.__password = password
+        if not extra_env:
+            extra_env = dict()
         super().__init__(
             image=image,
             command=[
@@ -29,7 +32,7 @@ class MinioContainer(Container):
             env={
                 "MINIO_ROOT_USER": self.username,
                 "MINIO_ROOT_PASSWORD": self.__password,
-            },
+            } | extra_env,
         )
 
     def get_connection_url(self) -> str:

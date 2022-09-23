@@ -36,11 +36,6 @@ def test_minio_container_with_upload_download():
         target_key = its_me.name
 
         bucket.upload_file(str(its_me), target_key)
-
-        filtered = bucket.objects.filter(Prefix=target_key)
-        assert filtered
-        found = False
-        for f in filtered:
-            if f.key == target_key:
-                found = True
-        assert found
+        object = bucket.Object(target_key)
+        object.get()  # might raise if not found
+        assert object.key == target_key

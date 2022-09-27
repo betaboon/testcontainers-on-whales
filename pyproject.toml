@@ -39,6 +39,8 @@ postgres = [
 ]
 minio = [
     "boto3>=1.24.73",
+    "minio>=7.1.11",
+    "pika>=1.3.0",
 ]
 [tool.pdm.dev-dependencies]
 dev = [

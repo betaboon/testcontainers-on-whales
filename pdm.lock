@@ -271,6 +271,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "minio"
+version = "7.1.11"
+summary = "MinIO Python SDK for Amazon S3 Compatible Cloud Storage"
+dependencies = [
+    "certifi",
+    "urllib3",
+]
+
+[[package]]
 name = "more-itertools"
 version = "8.14.0"
 requires_python = ">=3.5"
@@ -666,7 +675,7 @@ summary = "Backport of pathlib-compatible object wrapper for zip files"
 
 [metadata]
 lock_version = "4.0"
-content_hash = "sha256:416b73f1735a4d9a4537ab47fdd2e529511cffa708a0eb1d3239c1f8184e853f"
+content_hash = "sha256:4e8031735b9de97a931ba33b48c3fd79ff87e1e9340308b8b816d6f3a45de5d5"
 
 [metadata.files]
 "arrow 1.2.1" = [
@@ -938,6 +947,10 @@ content_hash = "sha256:416b73f1735a4d9a4537ab47fdd2e529511cffa708a0eb1d3239c1f81
 "keyring 23.9.1" = [
     {url = "https://files.pythonhosted.org/packages/99/00/072e2e03d32286c12b963a236f41040a528316a5a5c2fac6ff4029c85386/keyring-23.9.1.tar.gz", hash = "sha256:39e4f6572238d2615a82fcaa485e608b84b503cf080dc924c43bbbacb11c1c18"},
     {url = "https://files.pythonhosted.org/packages/fd/4e/eeaa2a3609cb0074a3cdd910f625adeec95aa1c1b6039816b18f5f7ca3fe/keyring-23.9.1-py3-none-any.whl", hash = "sha256:3565b9e4ea004c96e158d2d332a49f466733d565bb24157a60fd2e49f41a0fd1"},
+]
+"minio 7.1.11" = [
+    {url = "https://files.pythonhosted.org/packages/2c/57/9fb02b5eb192019daea018b4cc50b0ab637b45aa47c8e5bc571018a096ab/minio-7.1.11.tar.gz", hash = "sha256:12ac2d1d4fd3cea159d625847445e1bfceba3fbc2f4ab692c2d2bf716f82246c"},
+    {url = "https://files.pythonhosted.org/packages/3e/71/aa107457cd97ad3802a1048d84a347000eb18f257739cda5a101f3b7931f/minio-7.1.11-py3-none-any.whl", hash = "sha256:1cab424275749b8b5b8bb0c6cc856d667305ef549796ae56f3237fe55306a1fc"},
 ]
 "more-itertools 8.14.0" = [
     {url = "https://files.pythonhosted.org/packages/0b/ff/1ad78678bee731ae5414ea5e97396b3f91de32186028daa614d322ac5a8b/more_itertools-8.14.0-py3-none-any.whl", hash = "sha256:1bc4f91ee5b1b31ac7ceacc17c09befe6a40a503907baf9c839c229b5095cfd2"},

@@ -30,8 +30,8 @@ class Container(AbstractContextManager):
         self._env = env
         self._client_call = client_call
 
-        self._client = None
-        self._container = None
+        self._client: python_on_whales.DockerClient | None = None
+        self._container: python_on_whales.Container | None = None
         self._is_ready = False
 
     @property

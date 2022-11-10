@@ -1,6 +1,6 @@
 import requests
 import urllib3
-from esdb import ESClient
+from eventstoredb import Client, ClientOptions
 
 from testcontainers_on_whales import Container
 
@@ -32,8 +32,12 @@ class EventStoreDBContainer(Container):
         port = self.get_container_port(self.EVENTSTOREDB_HTTP_PORT)
         return f"esdb://{ip}:{port}?tls=false"
 
-    def get_client(self) -> ESClient:
-        return ESClient(self.get_connection_url())
+    def get_client(self) -> Client:
+        options = ClientOptions(
+            host=self.get_container_ip(),
+            port=self.get_container_port(self.EVENTSTOREDB_HTTP_PORT),
+        )
+        return Client(options)
 
     def readiness_probe(self) -> bool:
         ip = self.get_container_ip()

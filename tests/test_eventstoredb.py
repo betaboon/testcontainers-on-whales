@@ -1,6 +1,7 @@
 from typing import Generator
 
 import pytest
+from eventstoredb.events import JsonEvent
 
 from testcontainers_on_whales.eventstoredb import EventStoreDBContainer
 
@@ -17,11 +18,8 @@ async def test_eventstoredb_container(
     eventstoredb_container: EventStoreDBContainer,
 ) -> None:
     client = eventstoredb_container.get_client()
-    async with client.connect() as conn:
-        for i in range(10):
-            append_result = await conn.streams.append(
-                stream="test-stream",
-                event_type="example-event",
-                data={"test": i},
-            )
-    assert append_result.current_revision == 9
+    append_result = await client.append_to_stream(
+        stream_name="test-stream",
+        events=JsonEvent(type="test-event"),
+    )
+    assert append_result.success == True

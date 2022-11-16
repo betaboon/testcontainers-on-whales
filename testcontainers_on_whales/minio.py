@@ -22,7 +22,7 @@ class MinioContainer(Container):
             image=image,
             command=[
                 "server",
-                "/tmp/storage",
+                "/data",
                 "--console-address",
                 f":{MinioContainer.MINIO_CONSOLE_PORT}",
             ],

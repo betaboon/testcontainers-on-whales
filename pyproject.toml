@@ -17,8 +17,8 @@ classifiers = [
 dynamic = ["version"]
 requires-python = ">=3.9"
 dependencies = [
-    "python-on-whales>=0.51.1",
-    "requests>=2.28.1",
+    "python-on-whales>=0.59.0",
+    "requests>=2.28.2",
 ]
 
 [project.urls]
@@ -44,14 +44,14 @@ eventstoredb = [
 ]
 [tool.pdm.dev-dependencies]
 dev = [
-    "pre-commit>=2.20.0",
-    "gitlint>=0.17.0",
+    "pre-commit>=3.1.1",
+    "gitlint>=0.19.1",
     "python-semantic-release @ git+https://github.com/betaboon/python-semantic-release.git@85eae44b00ed01e5fe531403999c730eb4fa58fa",
-    "types-requests>=2.28.11.4",
+    "types-requests>=2.28.11.15",
 ]
 test = [
-    "pytest>=7.1.2",
-    "pytest-asyncio>=0.20.1",
+    "pytest>=7.2.2",
+    "pytest-asyncio>=0.20.3",
 ]
 
 [tool.pdm.scripts]

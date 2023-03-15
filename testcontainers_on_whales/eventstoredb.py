@@ -1,6 +1,7 @@
 import requests
 import urllib3
-from eventstoredb import Client, ClientOptions
+from eventstoredb import Client
+from eventstoredb.options import ClientOptions
 
 from testcontainers_on_whales import Container
 

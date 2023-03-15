@@ -43,10 +43,10 @@ class EventStoreDBContainer(Container):
     def readiness_probe(self) -> bool:
         ip = self.get_container_ip()
         port = self.get_container_port(self.EVENTSTOREDB_HTTP_PORT)
-        url = f"http://{ip}:{port}/stats"
+        url = f"http://{ip}:{port}/health/live"
         try:
             r = requests.get(url)
-            return r.status_code == 200
+            return r.status_code == 204
         except urllib3.exceptions.MaxRetryError:
             pass
         except requests.exceptions.ConnectionError:

@@ -5,6 +5,7 @@ import re
 import shutil
 import time
 from contextlib import AbstractContextManager
+from typing import TypeVar
 
 import python_on_whales
 
@@ -16,8 +17,10 @@ from testcontainers_on_whales.core.exceptions import (
 
 logger = logging.getLogger(__name__)
 
+TContainer = TypeVar("TContainer", bound="Container")
 
-class Container(AbstractContextManager):
+
+class Container(AbstractContextManager):  # type: ignore
     def __init__(
         self,
         image: str,
@@ -65,7 +68,7 @@ class Container(AbstractContextManager):
             )
         return self._container
 
-    def __enter__(self) -> Container:
+    def __enter__(self: TContainer) -> TContainer:
         self.start()
         return self
 

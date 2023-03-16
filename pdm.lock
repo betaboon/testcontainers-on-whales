@@ -719,7 +719,7 @@ summary = "Backport of pathlib-compatible object wrapper for zip files"
 
 [metadata]
 lock_version = "4.1"
-content_hash = "sha256:b78b814b922a34f9a569e977e19257ea0c60ffd79b5a63032f93ea1eb7007a7a"
+content_hash = "sha256:7d332d2a7717de4cd697374d87393f6bbaf0517a33cedc73c6a0bd391740a443"
 
 [metadata.files]
 "arrow 1.2.3" = [

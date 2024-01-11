@@ -33,5 +33,9 @@ class RedisContainer(Container):
         return client
 
     def readiness_probe(self) -> bool:
-        client = self.get_client()
-        return client.ping()
+        try:
+            client = self.get_client()
+            return client.ping()
+        except redis.exceptions.ConnectionError:
+            pass
+        return False

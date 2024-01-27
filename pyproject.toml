@@ -33,26 +33,26 @@ classifiers = [
 keywords = ["testing", "containers", "podman", "docker", "test automation"]
 dynamic = ["version"]
 dependencies = [
-    "python-on-whales>=0.67.0",
+    "python-on-whales>=0.68.0",
     "requests>=2.31.0",
 ]
 
 [project.optional-dependencies]
 eventstoredb = [
-    "eventstoredb>=0.7.0",
+    "eventstoredb>=0.8.0",
 ]
 minio = [
-    "boto3>=1.26.91",
+    "boto3>=1.34.29",
 ]
 postgres = [
-    "psycopg2-binary>=2.9.5",
-    "sqlalchemy>=2.0.6",
+    "psycopg2-binary>=2.9.9",
+    "sqlalchemy>=2.0.25",
 ]
 rabbitmq = [
-    "pika>=1.3.1",
+    "pika>=1.3.2",
 ]
 redis = [
-    "redis>=4.5.1",
+    "redis>=5.0.1",
 ]
 all = [
     "testcontainers-on-whales[eventstoredb]",

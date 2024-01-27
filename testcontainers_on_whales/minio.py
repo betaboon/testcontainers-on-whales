@@ -1,7 +1,9 @@
-import boto3 as boto3
-import requests as requests
-import urllib3 as urllib3
-from botocore.client import Config
+from typing import Any
+
+import boto3  # type: ignore
+import requests
+import urllib3
+from botocore.client import Config  # type: ignore
 
 from testcontainers_on_whales import Container
 
@@ -14,7 +16,7 @@ class MinioContainer(Container):
         self,
         image: str = "docker.io/minio/minio:latest",
         username: str = "minioadmin",
-        password: str = "minioadmin",
+        password: str = "minioadmin",  # noqa: S107
     ):
         self.username = username
         self.__password = password
@@ -37,17 +39,16 @@ class MinioContainer(Container):
         port = self.get_container_port(self.MINIO_PORT)
         return f"http://{ip}:{port}"
 
-    def get_boto_resource(self):
-        s3 = boto3.resource(
+    def get_boto_resource(self) -> Any:
+        return boto3.resource(
             "s3",
             endpoint_url=self.get_connection_url(),
             aws_access_key_id=self.username,
             aws_secret_access_key=self.__password,
             config=Config(signature_version="s3v4"),
         )
-        return s3
 
-    def get_bucket(self, name: str = "test"):
+    def get_bucket(self, name: str = "test") -> Any:
         """
         Get bucket by name. Create if it does not exist.
         :param name:
@@ -62,10 +63,11 @@ class MinioContainer(Container):
     def readiness_probe(self) -> bool:
         url = self.get_connection_url()
         try:
-            r = requests.get(url)
-            return r.status_code == 403
+            r = requests.get(url, timeout=10)
         except urllib3.exceptions.MaxRetryError:
             pass
         except requests.exceptions.ConnectionError:
             pass
+        else:
+            return r.status_code == 403
         return False

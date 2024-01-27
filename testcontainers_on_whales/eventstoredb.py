@@ -1,7 +1,7 @@
 import requests
 import urllib3
-from eventstoredb import Client
-from eventstoredb.options import ClientOptions
+from eventstoredb import Client  # type: ignore
+from eventstoredb.options import ClientOptions  # type: ignore
 
 from testcontainers_on_whales import Container
 
@@ -45,10 +45,11 @@ class EventStoreDBContainer(Container):
         port = self.get_container_port(self.EVENTSTOREDB_HTTP_PORT)
         url = f"http://{ip}:{port}/health/live"
         try:
-            r = requests.get(url)
-            return r.status_code == 204
+            r = requests.get(url, timeout=10)
         except urllib3.exceptions.MaxRetryError:
             pass
         except requests.exceptions.ConnectionError:
             pass
+        else:
+            return r.status_code == 204
         return False

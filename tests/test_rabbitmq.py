@@ -1,10 +1,10 @@
-import pika
+import pika  # type: ignore
 import pytest
 
 from testcontainers_on_whales.rabbitmq import RabbitmqContainer
 
 
-def test_rabbitmq_container():
+def test_rabbitmq_container() -> None:
     with RabbitmqContainer() as container:
         container.wait_ready(timeout=120)
 
@@ -20,7 +20,7 @@ def test_rabbitmq_container():
         assert body == b"Test message"
 
 
-def test_rabbitmq_container_custom_credentials():
+def test_rabbitmq_container_custom_credentials() -> None:
     with RabbitmqContainer(username="custom", password="supersecure") as container:
         container.wait_ready(timeout=120)
         ip = container.get_container_ip()

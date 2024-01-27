@@ -19,8 +19,9 @@ class NginxContainer(Container):
 
     def readiness_probe(self) -> bool:
         try:
-            requests.get(self.get_connection_url())
-            return True
+            requests.get(self.get_connection_url(), timeout=10)
         except requests.ConnectionError:
             pass
+        else:
+            return True
         return False

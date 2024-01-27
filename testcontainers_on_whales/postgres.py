@@ -10,7 +10,7 @@ class PostgresContainer(Container):
         self,
         image: str = "docker.io/library/postgres:alpine",
         username: str = "test",
-        password: str = "test",
+        password: str = "test",  # noqa: S107
         database_name: str = "test",
     ) -> None:
         self.username = username
@@ -33,14 +33,14 @@ class PostgresContainer(Container):
 
     def get_sqlalchemy_engine(self) -> sqlalchemy.engine.Engine:
         url = self.get_connection_url()
-        engine = sqlalchemy.create_engine(url)
-        return engine
+        return sqlalchemy.create_engine(url)
 
     def readiness_probe(self) -> bool:
         engine = self.get_sqlalchemy_engine()
         try:
             engine.connect()
-            return True
         except sqlalchemy.exc.OperationalError:
             pass
+        else:
+            return True
         return False

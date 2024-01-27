@@ -83,6 +83,8 @@ linting = [
     "mypy>=1.8.0",
     "pre-commit>=3.6.0",
     "ruff>=0.1.14",
+    "types-requests>=2.31.0.6",
+    "types-urllib3>=1.26.25.14",
 ]
 testing = [
     "pytest-asyncio>=0.23.3",
@@ -160,6 +162,7 @@ select = [
     "YTT",   # flake8-2020
 ]
 ignore = [
+    "D",    # TODO write documentation and remove this
     "D100", # pydocstyle - undocumented-public-module
     "D104", # pydocstyle - undocumented-public-package
 ]
@@ -177,6 +180,8 @@ ban-relative-imports = "all"
 "tests/**/*" = [
     "C901", # mccabe - complex-structure
     "D",    # pydocstyle
+    "S",    # flake8-bandit
+    "SIM",  # flake8-simplify
 ]
 
 [tool.pytest.ini_options]

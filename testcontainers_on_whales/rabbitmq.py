@@ -1,4 +1,4 @@
-import pika
+import pika  # type: ignore
 
 from testcontainers_on_whales import Container
 
@@ -10,7 +10,7 @@ class RabbitmqContainer(Container):
         self,
         image: str = "docker.io/library/rabbitmq:alpine",
         username: str = "guest",
-        password: str = "guest",
+        password: str = "guest",  # noqa: S107
     ) -> None:
         self.username = username
         self.password = password
@@ -32,9 +32,10 @@ class RabbitmqContainer(Container):
             parameters = pika.URLParameters(url=self.get_connection_url())
             connection = pika.BlockingConnection(parameters=parameters)
             connection.close()
-            return True
         except pika.exceptions.AMQPConnectionError:
             pass
         except pika.exceptions.IncompatibleProtocolError:
             pass
+        else:
+            return True
         return False

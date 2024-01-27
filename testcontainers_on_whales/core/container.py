@@ -24,13 +24,13 @@ class Container(AbstractContextManager):  # type: ignore
     def __init__(
         self,
         image: str,
-        command: list[str] = [],
-        env: dict[str, str] = {},
+        command: list[str] | None = None,
+        env: dict[str, str] | None = None,
         client_call: list[str] | None = None,
     ) -> None:
         self._image = image
-        self._command = command
-        self._env = env
+        self._command = command if command is not None else []
+        self._env = env if env is not None else {}
         self._client_call = client_call
 
         self._client: python_on_whales.DockerClient | None = None
@@ -72,7 +72,7 @@ class Container(AbstractContextManager):  # type: ignore
         self.start()
         return self
 
-    def __exit__(self, exception_type, exception_value, traceback) -> None:
+    def __exit__(self, exception_type, exception_value, traceback) -> None:  # type: ignore
         self.stop()
 
     def __del__(self) -> None:
@@ -91,7 +91,7 @@ class Container(AbstractContextManager):  # type: ignore
 
     @property
     def is_running(self) -> bool:
-        return self.container.state.running
+        return self.container.state.running or False
 
     def readiness_probe(self) -> bool:
         return True
@@ -112,7 +112,7 @@ class Container(AbstractContextManager):  # type: ignore
         if network_mode in ("bridge", "default", "slirp4netns"):
             return network_settings.gateway or "localhost"
 
-        raise NetworkModeUnknownError(network_mode=network_mode)
+        raise NetworkModeUnknownError(network_mode=network_mode)  # type: ignore
 
     def get_container_port(self, port: int | str) -> int:
         protocol = "tcp"
@@ -130,14 +130,14 @@ class Container(AbstractContextManager):  # type: ignore
             return port
 
         if network_mode in ("bridge", "default", "slirp4netns"):
-            if port_name not in network_settings.ports:
+            if port_name not in network_settings.ports:  # type: ignore
                 raise PortBindingNotFoundError(port_name)
 
-            exposed_port = network_settings.ports[port_name]
+            exposed_port = network_settings.ports[port_name]  # type: ignore
             host_port = exposed_port[0]["HostPort"]
             return int(host_port)
 
-        raise NetworkModeUnknownError(network_mode=network_mode)
+        raise NetworkModeUnknownError(network_mode=network_mode)  # type: ignore
 
     @property
     def logs(self) -> str:
@@ -154,7 +154,7 @@ class Container(AbstractContextManager):  # type: ignore
             if not self.is_running:
                 return duration
             if timeout and duration > timeout:
-                raise TimeoutError(f"container did not exit within {timeout:.2f}")
+                raise TimeoutError(f"container did not exit within {timeout:.2f}")  # noqa: TRY003
             time.sleep(interval)
 
     def wait_ready(
@@ -168,9 +168,7 @@ class Container(AbstractContextManager):  # type: ignore
             if self.is_ready:
                 return duration
             if timeout and duration > timeout:
-                raise TimeoutError(
-                    f"container did not become ready within {timeout:.2f}"
-                )
+                raise TimeoutError(f"container did not become ready within {timeout:.2f}")  # noqa: TRY003
             time.sleep(interval)
 
     def wait_logs_match(
@@ -188,7 +186,5 @@ class Container(AbstractContextManager):  # type: ignore
             if not self.is_running:
                 return duration
             if timeout and duration > timeout:
-                raise TimeoutError(
-                    f"container did not emit matching logs within {timeout:.2f}"
-                )
+                raise TimeoutError(f"container did not emit matching logs within {timeout:.2f}")  # noqa: TRY003
             time.sleep(interval)

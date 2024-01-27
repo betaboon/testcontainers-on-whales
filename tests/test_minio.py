@@ -3,13 +3,13 @@ import pathlib
 from testcontainers_on_whales.minio import MinioContainer
 
 
-def test_minio_container_default():
+def test_minio_container_default() -> None:
     with MinioContainer() as minio:
         minio.wait_ready(timeout=120)
         minio.get_bucket("test")
 
 
-def test_minio_container_with_upload_download():
+def test_minio_container_with_upload_download() -> None:
     with MinioContainer() as minio:
         minio.wait_ready(timeout=120)
         bucket = minio.get_bucket("test")

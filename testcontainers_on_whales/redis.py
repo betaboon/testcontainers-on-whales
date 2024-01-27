@@ -29,13 +29,12 @@ class RedisContainer(Container):
 
     def get_client(self) -> redis.Redis:
         url = self.get_connection_url()
-        client = redis.Redis.from_url(url)
-        return client
+        return redis.Redis.from_url(url)  # type: ignore
 
     def readiness_probe(self) -> bool:
         try:
             client = self.get_client()
-            return client.ping()
+            return client.ping()  # type: ignore
         except redis.exceptions.ConnectionError:
             pass
         return False

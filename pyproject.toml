@@ -1,135 +1,237 @@
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
 [project]
+name = "testcontainers-on-whales"
+description = "A library that provides throwaway instances of common services."
+readme = "README.md"
+requires-python = ">=3.9,<3.13"
 license = {text = "MIT"}
 authors = [
     {name = "betaboon", email = "betaboon@0x80.ninja"},
 ]
-name = "testcontainers-on-whales"
-description = "A library that provides lightweight, throwaway instances of common databases, Selenium web browsers, or anything else that can run in a container."
-readme = "README.md"
-keywords = ["testing", "containers", "podman", "docker", "test automation"]
+maintainers = [
+    {name = "betaboon", email = "betaboon@0x80.ninja"},
+]
 classifiers = [
-    "Topic :: Software Development :: Build Tools",
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Typing :: Typed",
+    "Topic :: Software Development :: Build Tools",
 ]
+keywords = ["testing", "containers", "podman", "docker", "test automation"]
 dynamic = ["version"]
-requires-python = ">=3.9"
 dependencies = [
-    "python-on-whales>=0.67.0",
+    "python-on-whales>=0.68.0",
     "requests>=2.31.0",
 ]
 
-[project.urls]
-repository = "https://github.com/betaboon/testcontainers-on-whales"
-changelog = "https://github.com/betaboon/testcontainers-on-whales/releases"
-
 [project.optional-dependencies]
-rabbitmq = [
-    "pika>=1.3.1",
-]
-redis = [
-    "redis>=4.5.1",
-]
-postgres = [
-    "psycopg2-binary>=2.9.5",
-    "sqlalchemy>=2.0.6",
+eventstoredb = [
+    "eventstoredb>=0.8.0",
 ]
 minio = [
-    "boto3>=1.26.91",
+    "boto3>=1.34.29",
 ]
-eventstoredb = [
-    "eventstoredb>=0.7.0",
+postgres = [
+    "psycopg2-binary>=2.9.9",
+    "sqlalchemy>=2.0.25",
+]
+rabbitmq = [
+    "pika>=1.3.2",
+]
+redis = [
+    "redis>=5.0.1",
 ]
 all = [
-  "testcontainers-on-whales[rabbitmq,redis,postgres,minio,eventstoredb]",
+    "testcontainers-on-whales[eventstoredb]",
+    "testcontainers-on-whales[minio]",
+    "testcontainers-on-whales[postgres]",
+    "testcontainers-on-whales[rabbitmq]",
+    "testcontainers-on-whales[redis]",
 ]
 
-[tool.pdm.resolution.overrides]
-pyyaml = ">=6.0.1"
+[project.urls]
+Homepage = "https://github.com/betaboon/testcontainers-on-whales"
+Documentation = "https://betaboon.github.io/testcontainers-on-whales"
+Changelog = "https://github.com/betaboon/testcontainers-on-whales/releases"
+Repository = "https://github.com/betaboon/testcontainers-on-whales"
+"Issue Tracker" = "https://github.com/betaboon/testcontainers-on-whales/issues"
 
 [tool.pdm.dev-dependencies]
-dev = [
-    "pre-commit>=3.5.0",
+docs = [
+    "furo>=2023.9.10",
+    "myst-parser>=2.0.0",
+    "sphinx-autoapi>=3.0.0",
+    "sphinx-autobuild>=2021.3.14",
+    "sphinx-copybutton>=0.5.2",
+    "sphinx>=7.2.6",
+]
+linting = [
     "gitlint>=0.19.1",
-    "python-semantic-release>=7.33.2,<8",
+    "mypy>=1.8.0",
+    "pre-commit>=3.6.0",
+    "ruff>=0.1.14",
     "types-requests>=2.31.0.6",
+    "types-urllib3>=1.26.25.14",
 ]
-test = [
-    "pytest>=7.4.3",
-    "pytest-asyncio>=0.21.1",
-]
-
-[tool.pdm.scripts]
-install-git-hooks = "pre-commit install --install-hooks"
-lint = "pre-commit run --all-files"
-test = "pytest"
-
-[tool.pdm.scripts.ci-lint]
-cmd = [
-  "pre-commit", "run",
-  "--show-diff-on-failure",
-  "--from-ref", "$FROM_REF",
-  "--to-ref", "$TO_REF",
+testing = [
+    "pytest-asyncio>=0.23.3",
+    "pytest-cov>=4.1.0",
+    "pytest>=7.4.4",
 ]
 
-[tool.pdm.scripts.ci-commit-lint]
-cmd = [
-  "gitlint",
-  "--contrib", "contrib-title-conventional-commits",
-  "--ignore", "body-is-missing",
-  "--commits", "$FROM_REF..$TO_REF",
+[tool.pdm.options]
+lock = [
+    "--group=:all",
 ]
-
-[tool.pdm.scripts.ci-version]
-cmd = "semantic-release print-version --next"
-
-[tool.pdm.scripts.ci-changelog]
-cmd = "semantic-release changelog --unreleased"
 
 [tool.pdm.version]
 source = "scm"
 write_to = "testcontainers_on_whales/__version__.py"
-write_template = "__version__ = '{}'"
+write_template = "__version__ = \"{}\"\n"
 
 [tool.semantic_release]
-branch = "main"
-version_source = "tag_only"
-version_pattern = "d+.d+.d+"
 tag_format = "{version}"
 
-[tool.black]
-line-length = 88
+[tool.mypy]
+strict = true
+python_version = "3.9"
 
-[tool.flake8]
-# Recommend matching the black line length (default 88),
-# rather than using the flake8 default of 79:
-max-line-length = 88
-extend-ignore = [
-    # See https://github.com/PyCQA/pycodestyle/issues/373
-    "E203",
+[tool.ruff]
+target-version = "py39"
+line-length = 100
+preview = true
+
+[tool.ruff.lint]
+fixable = [
+    "ALL",
 ]
-per-file-ignores = [
-  # imported but unused
-  "__init__.py:F401",
-  # comparison to True should be 'if cond is True:' or 'if cond:'
-  "tests/*:E712",
+select = [
+    "A",     # flake8-builtins
+    "ASYNC", # flake8-async
+    "B",     # flake8-bugbear
+    "BLE",   # flake8-blind-except
+    "C4",    # flake8-comprehensions
+    "C90",   # mccabe
+    "COM",   # flake8-commas
+    "D",     # pydocstyle
+    "DTZ",   # flake8-datetimez
+    "E",     # pycodestyle errors
+    "ERA",   # eradicate
+    "EXE",   # flake8-executable
+    "F",     # pyflakes
+    "FLY",   # flynt
+    "FURB",  # refurb
+    "I",     # isort
+    "ICN",   # flake8-import-conventions
+    "ISC",   # flake8-implicit-str-concat
+    "N",     # pep8-naming
+    "NPY",   # numpy
+    "PD",    # pandas-vet
+    "PERF",  # perflint
+    "PIE",   # flake8-pie
+    "PLC",   # pylint - convention
+    "PLE",   # pylint - error
+    "PLW",   # pylint - warning
+    "PT",    # flake8-pytest-style
+    "PTH",   # flake8-use-pathlib
+    "Q",     # flake8-quotes
+    "RET",   # flake8-return
+    "RUF",   # Ruff-specific rules
+    "S",     # flake8-bandit
+    "SIM",   # flake8-simplify
+    "T10",   # flake8-debugger
+    "T20",   # flake8-print
+    "TCH",   # flake8-type-checking
+    "TID",   # flake8-tidy-imports
+    "TRY",   # tryceratops
+    "UP",    # pyupgrade
+    "W",     # pycodestyle - warning
+    "YTT",   # flake8-2020
 ]
-exclude = [
-  "__pypackages__",
-  "build",
-  "dist",
+ignore = [
+    "D",    # TODO write documentation and remove this
+    "D100", # pydocstyle - undocumented-public-module
+    "D104", # pydocstyle - undocumented-public-package
 ]
 
-[tool.isort]
-profile = "black"
-atomic = true
-filter_files = true
+[tool.ruff.isort]
+combine-as-imports = true
+
+[tool.ruff.pydocstyle]
+convention = "google"
+
+[tool.ruff.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.ruff.per-file-ignores]
+"tests/**/*" = [
+    "C901", # mccabe - complex-structure
+    "D",    # pydocstyle
+    "S",    # flake8-bandit
+    "SIM",  # flake8-simplify
+]
 
 [tool.pytest.ini_options]
-addopts = "-ra --ignore=__pypackages__"
+addopts = "--strict-config --strict-markers --cov"
+asyncio_mode = "auto"
+xfail_strict = true
 
-[build-system]
-requires = ["pdm-pep517>=1.0.0"]
-build-backend = "pdm.pep517.api"
+[tool.coverage.run]
+branch = true
+parallel = true
+source = ["testcontainers_on_whales"]
+
+[tool.pdm.scripts.install-git-hooks]
+help = "Install pre-commit hooks"
+cmd = "pre-commit install --install-hooks"
+
+[tool.pdm.scripts.lint]
+help = "Run pre-commit"
+cmd = "pre-commit run --all-files"
+
+[tool.pdm.scripts.test]
+help = "Run tests"
+cmd = "pytest"
+
+[tool.pdm.scripts.docs-build]
+help = "Build docs"
+cmd = "sphinx-build docs docs/_build"
+
+[tool.pdm.scripts.docs-serve]
+help = "Build and serve docs"
+cmd = "sphinx-autobuild --watch testcontainers-on-whales docs docs/_build"
+
+[tool.pdm.scripts._ci-lint-code]
+cmd = [
+    "pre-commit",
+    "run",
+    "--show-diff-on-failure",
+    "--from-ref",
+    "${FROM_REF}",
+    "--to-ref",
+    "${TO_REF}",
+]
+
+[tool.pdm.scripts._ci-lint-commits]
+cmd = [
+    "gitlint",
+    "--contrib",
+    "contrib-title-conventional-commits",
+    "--ignore",
+    "body-is-missing",
+    "--commits",
+    "${FROM_REF}..${TO_REF}",
+]

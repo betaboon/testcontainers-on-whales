@@ -3,7 +3,7 @@ import requests
 from testcontainers_on_whales.nginx import NginxContainer
 
 
-def test_nginx_container():
+def test_nginx_container() -> None:
     with NginxContainer() as container:
         container.wait_ready(timeout=120)
         url = container.get_connection_url()

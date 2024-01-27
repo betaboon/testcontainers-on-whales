@@ -1,0 +1,21 @@
+# Changes here will be overwritten by Copier
+_commit: de9f230
+_src_path: gh:betaboon/copier-python
+author_email: betaboon@0x80.ninja
+author_name: betaboon
+copyright_holder: betaboon
+copyright_license: MIT
+copyright_year: '2024'
+project_description: A library that provides throwaway instances of common services.
+project_name: Testcontainers on whales
+python_console_script: false
+python_import_name: testcontainers_on_whales
+python_package_name: testcontainers-on-whales
+python_versions:
+- '3.9'
+- '3.10'
+- '3.11'
+- '3.12'
+repository_name: testcontainers-on-whales
+repository_namespace: betaboon
+repository_provider: github

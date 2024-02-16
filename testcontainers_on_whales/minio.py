@@ -19,7 +19,7 @@ class MinioContainer(Container):
         password: str = "minioadmin",  # noqa: S107
     ):
         self.username = username
-        self.__password = password
+        self.password = password
         super().__init__(
             image=image,
             command=[
@@ -30,7 +30,7 @@ class MinioContainer(Container):
             ],
             env={
                 "MINIO_ROOT_USER": self.username,
-                "MINIO_ROOT_PASSWORD": self.__password,
+                "MINIO_ROOT_PASSWORD": self.password,
             },
         )
 
@@ -44,7 +44,7 @@ class MinioContainer(Container):
             "s3",
             endpoint_url=self.get_connection_url(),
             aws_access_key_id=self.username,
-            aws_secret_access_key=self.__password,
+            aws_secret_access_key=self.password,
             config=Config(signature_version="s3v4"),
         )
 

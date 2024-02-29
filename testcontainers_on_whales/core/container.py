@@ -4,10 +4,11 @@ import logging
 import re
 import shutil
 import time
-from contextlib import AbstractContextManager
+from contextlib import AbstractContextManager, suppress
 from typing import TypeVar
 
 import python_on_whales
+import python_on_whales.exceptions
 
 from testcontainers_on_whales.core.exceptions import (
     ContainerRuntimeNotFoundError,
@@ -76,8 +77,7 @@ class Container(AbstractContextManager):  # type: ignore
         self.stop()
 
     def __del__(self) -> None:
-        if self._container:
-            self._container.remove()
+        self.remove()
 
     def start(self) -> None:
         if self.is_running:
@@ -89,9 +89,18 @@ class Container(AbstractContextManager):  # type: ignore
             return
         self.container.stop()
 
+    def remove(self) -> None:
+        self.stop()
+        with suppress(python_on_whales.exceptions.NoSuchContainer):
+            self.container.remove()
+
     @property
     def is_running(self) -> bool:
-        return self.container.state.running or False
+        try:
+            return self.container.state.running or False
+        except python_on_whales.exceptions.NoSuchContainer:
+            pass
+        return False
 
     def readiness_probe(self) -> bool:
         return True

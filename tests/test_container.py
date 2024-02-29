@@ -2,6 +2,7 @@ import time
 from typing import Any
 
 import pytest
+import python_on_whales.exceptions
 
 from testcontainers_on_whales import Container
 
@@ -90,3 +91,14 @@ def test_container_wait_logs_match_timeout_raises() -> None:
     with Container(image="alpine", command=["sleep", "1"]) as container:
         with pytest.raises(TimeoutError, match=r".*did not emit matching logs.*"):
             container.wait_logs_match("Hello from Docker!", timeout=0.1, interval=0.1)
+
+
+def test_container_deleted_after_removed() -> None:
+    container = Container(image="alpine", command=["watch", "uptime"])
+    container.start()
+    container.wait_ready(timeout=10)
+    container.stop()
+    container.wait_exited(timeout=10)
+    container.remove()
+    with pytest.raises(python_on_whales.exceptions.NoSuchContainer):
+        _ = container.container.state

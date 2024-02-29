@@ -39,6 +39,14 @@ class MinioContainer(Container):
         port = self.get_container_port(self.MINIO_PORT)
         return f"http://{ip}:{port}"
 
+    def get_client(self) -> Any:
+        return boto3.client(
+            service_name="s3",
+            endpoint_url=self.get_connection_url(),
+            aws_access_key_id=self.username,
+            aws_secret_access_key=self.password,
+        )
+
     def get_boto_resource(self) -> Any:
         return boto3.resource(
             "s3",
